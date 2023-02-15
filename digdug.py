@@ -44,15 +44,19 @@ def main():
   ╚═════╝ ╚═╝ ╚═════╝     ╚═════╝  ╚═════╝  ╚═════╝
 """
     # Parse our arguments
-    parser = argparse.ArgumentParser(description='Inflate an executable with words.')
+    parser = argparse.ArgumentParser(description='Inflate an executable with words')
     parser.add_argument("-i", "--input", type=str, required=True,
                         help="Input file to increase size.")
     parser.add_argument("-m", default=100, type=int, metavar="100",
-                        help="Specify the desired size in megabytes to increase by.")
-    parser.add_argument("-d", "--dictionary", default="google-10000-english-usa-gt5.txt", type=str,
-                        help="Dictionary to use for inflation.")
+                        help="Specify the desired size in megabytes to increase by")
     parser.add_argument("-q", "--quiet", action="store_true",
                         help="Quiet output. Don't print the banner")
+    group = parser.add_mutually_exclusive_group(required=True)
+    parser.add_argument("-d", "--dictionary", default="google-10000-english-usa-gt5.txt", type=str,
+                        help="Dictionary to use for inflation.")
+    parser.add_argument("-r", "--random", action='store_false',
+                        help="Use random data for padding instead of dictionary words")
+
     
     if len(sys.argv) == 1:
         # No arguments received.  Print help and exit
@@ -62,6 +66,7 @@ def main():
 
     args = parser.parse_args()
 
+    # ASCII art banner or GTFO
     if args.quiet:
         showBanner = False
     else:
@@ -70,10 +75,12 @@ def main():
     if showBanner:
         print(banner)
 
+    # Make sure the specified input exists
     if not os.path.isfile(args.input):
         exit("\n\nThe input file you specified does not exist! Please specify a valid file path.\nExiting...\n")
 
-    if not os.path.isfile(args.dictionary):
+        
+     if not os.path.isfile(args.dictionary):
         exit("\n\nThe dictionary you specified does not exist! Please specify a valid file path.\nExiting...\n")
         
     input_file = args.input
