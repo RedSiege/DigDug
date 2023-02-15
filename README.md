@@ -6,8 +6,9 @@
   ██████╔╝██║╚██████╔╝    ██████╔╝╚██████╔╝╚██████╔╝    
   ╚═════╝ ╚═╝ ╚═════╝     ╚═════╝  ╚═════╝  ╚═════╝
  ```
-Dig Dug helps you evade some AV/EDR sandbox detection by increasing a given executable file size. Dig Dug may offer an advantage over similar tools in that it does not inflate an executable using null bytes, a repeating single character, or random data. Some AV/EDR vendors are known to test for these kinds of padding and generate an alert.
+Dig Dug helps you evade some AV/EDR detection by increasing a given executable file size. Some engines and their sandboxes will not attempt to analyze a file if the file size is greater than some arbitrary threshold. I have not been able to find any definitive information on this threshold for various engines, discussions on offensive security Slacks and Twitter seem to agree that 100-150MB is an average threshold.
 
+Dig Dug works by appending words from a dictionary to an executable.  This dictionary is appended repeatedly until the final desired size of the executable is reached. Dig Dug may offer an advantage over similar tools in that it does not inflate an executable using random data which would increase entropy. Some engines, such as CrowdStrike Falcon, analyze the entropy within a binary to make a determination if the executable is trustworth to run. Other tools may append null bytes or a repeating single character. Some AV/EDR vendors are known to test for these kinds of padding and generate an alert when detected.
 
 ```
 usage: digdug.py [-h] [-i INPUT] [-m 100] [-d DICTIONARY]
@@ -21,6 +22,7 @@ options:
   -m 100                Specify the desired size in megabytes to increase by.
   -d DICTIONARY, --dictionary DICTIONARY
                         Dictionary to use for inflation.
+  -q, --quiet           Quiet output. Don't print the banner                                                     
 ```
 
 ## Demo
