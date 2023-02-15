@@ -24,6 +24,6 @@ options:
 ```
 
 ## Demo
-![Demo](https://github.com/RedSiege/PayloadToolbox/blob/main/Evasion/DigDug/images/digdug.gif)
+![Demo](https://github.com/hardwaterhacker/blob/main/Evasion/DigDug/images/digdug.gif)
 
 Dig Dug takes its name from the [classic arcade game](https://en.wikipedia.org/wiki/Dig_Dug) of the same name in which the protagonist uses an air pump to defeat his enemies by inflating them until they burst.
