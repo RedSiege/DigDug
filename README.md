@@ -10,6 +10,8 @@ Dig Dug helps you evade some AV/EDR detection by increasing a given executable f
 
 Dig Dug works by appending words from a dictionary to an executable.  This dictionary is appended repeatedly until the final desired size of the executable is reached. Dig Dug may offer an advantage over similar tools in that it does not inflate an executable using random data which would increase entropy. Some engines, such as CrowdStrike Falcon, analyze the entropy within a binary to make a determination if the executable is trustworth to run. Other tools may append null bytes or a repeating single character. Some AV/EDR vendors are known to test for these kinds of padding and generate an alert when detected.
 
+By default, Dig Dug uses a modified version of the [google-10000-english](https://github.com/first20hours/google-10000-english) dictionary. You can supply your own text dictionary if you prefer, for example, to have the program padded with words from another language.
+
 ```
 usage: digdug.py [-h] [-i INPUT] [-m 100] [-d DICTIONARY]
 
@@ -20,9 +22,11 @@ options:
   -i INPUT, --input INPUT
                         Input file to increase size.
   -m 100                Specify the desired size in megabytes to increase by.
+  -q, --quiet           Quiet output. Don't print the banner                                              
   -d DICTIONARY, --dictionary DICTIONARY
-                        Dictionary to use for inflation.
-  -q, --quiet           Quiet output. Don't print the banner                                                     
+                        Dictionary to use for padding 
+  -r, --random          Use random data for padding instead of dictionary words
+
 ```
 
 ## Demo

@@ -54,7 +54,7 @@ def main():
                         help="Quiet output. Don't print the banner")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-d", "--dictionary", default="google-10000-english-usa-gt5.txt", type=str,
-                        help="Dictionary to use for inflation.")
+                        help="Dictionary to use for padding")
     group.add_argument("-r", "--random", action='store_true',
                         help="Use random data for padding instead of dictionary words")
 
