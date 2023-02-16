@@ -83,9 +83,10 @@ def main():
     if not os.path.isfile(args.input):
         exit("\n\nThe input file you specified does not exist! Please specify a valid file path.\nExiting...\n")
 
-        
-    if not os.path.isfile(args.dictionary):
-        exit("\n\nThe dictionary you specified does not exist! Please specify a valid file path.\nExiting...\n")
+    # If we're not doing random generation, check to make sure the dictionary exists
+    if not args.random:    
+        if not os.path.isfile(args.dictionary):
+            exit("\n\nThe dictionary you specified does not exist! Please specify a valid file path.\nExiting...\n")
         
     input_file = args.input
     final_size = args.m
