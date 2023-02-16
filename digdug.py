@@ -72,11 +72,11 @@ def main():
 
     # ASCII art banner or GTFO
     if args.quiet:
-        showBanner = False
+        show_banner = False
     else:
-        showBanner = True
+        show_banner = True
 
-    if showBanner:
+    if show_banner:
         print(banner)
 
     # Make sure the specified input exists
@@ -93,7 +93,6 @@ def main():
     filename_parts = os.path.splitext(os.path.basename(input_file))
     output_filename = filename_parts[0] + '_inflated' + filename_parts[1]
 
-    input_file_stats = os.stat(input_file)
     input_file_len = get_file_size(input_file)
 
     print('Original file size: ' + str(input_file_len) + ' bytes.')
