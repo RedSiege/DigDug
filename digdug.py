@@ -11,6 +11,7 @@ def gen_random_bytes(desired_size):
     return bytes(''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase)
                          for _ in range(desired_size)), 'ascii')
 
+
 def build_padding(desired_size, dictionary_file):
     # read in words dictionary
     sizeof_dictionary_file = os.stat(dictionary_file).st_size
@@ -29,10 +30,12 @@ def build_padding(desired_size, dictionary_file):
     
     return final_words
 
+
 def get_file_size(myfile):
     myfile_stats = os.stat(myfile)
     myfile_len = myfile_stats.st_size
     return myfile_len
+
 
 def main():
     
@@ -110,6 +113,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
-
 
