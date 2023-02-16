@@ -31,10 +31,10 @@ def build_padding(desired_size, dictionary_file):
     return final_words
 
 
-def get_file_size(myfile):
-    myfile_stats = os.stat(myfile)
-    myfile_len = myfile_stats.st_size
-    return myfile_len
+def get_file_size(my_file):
+    my_file_stats = os.stat(my_file)
+    my_file_len = my_file_stats.st_size
+    return my_file_len
 
 
 def main():
@@ -96,9 +96,9 @@ def main():
     input_file_len = get_file_size(input_file)
 
     print('Original file size: ' + str(input_file_len) + ' bytes.')
-    with open(input_file, 'rb') as myfile:
+    with open(input_file, 'rb') as my_file:
         with open(output_filename, 'wb') as output_file:
-            output_file.write(myfile.read())
+            output_file.write(my_file.read())
             
             # Get enough padding to reach target size
             # Subtract length of original file first
