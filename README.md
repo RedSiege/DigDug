@@ -14,6 +14,8 @@ By default, Dig Dug uses a modified version of the [google-10000-english](https:
 
 Dig Dug also incorporates code from [SigThief](https://github.com/secretsquirrel/SigThief/) to copy the digital signature from a source executable to the inflated executable.
 
+## Usage
+
 ```
 usage: digdug.py [-h] [-i INPUT] [-m 100] [-d DICTIONARY]
 
@@ -32,12 +34,22 @@ options:
   -r, --random          Use random data for padding instead of dictionary words
 ```
 
+### Examples
+Inflate a binary by 100 megabytes using a supplied dictionary:  
+`python3 digdug.py -i calc.exe -m 100 -d dictionaries/google-10000-english-usa-gt5.txt`
+
+Inflate a binary by 100 megabytes using random data:  
+`python3 digdug.py -i calc.exe -m 100 -r`
+
+Inflate a binary by 100 megabytes and steal a signature from consent.exe:  
+`python3 digdug.py -i calc.exe -m 100 -d dictionaries/google-10000-english-usa-gt5.txt -s consent.exe`
+
 ## Demo
 <img src="https://github.com/hardwaterhacker/DigDug/blob/main/images/digdug.gif" width="65%" alt="Demonstration of DigDug">
 
 ## Credits
 - Dig Dug was inspired by [Mangle](https://github.com/optiv/Mangle).  
-- Dig Dug uses portions [SigThief](https://github.com/secretsquirrel/SigThief/) to copy the digital signature of a file.
+- Dig Dug uses portions of [SigThief](https://github.com/secretsquirrel/SigThief/) to copy the digital signature of a file.
 
 ## Misc.
 Dig Dug takes its name from the [classic arcade game](https://en.wikipedia.org/wiki/Dig_Dug) of the same name in which the protagonist uses an air pump to defeat his enemies by inflating them until they burst.
