@@ -139,11 +139,6 @@ def gather_file_info_win(binary):
 def copy_cert(exe):
     flItms = gather_file_info_win(exe)
 
-    if flItms['CertLOC'] == 0 or flItms['CertSize'] == 0:
-        # not signed
-        print("Input file Not signed!")
-        sys.exit(-1)
-
     with open(exe, 'rb') as f:
         f.seek(flItms['CertLOC'], 0)
         cert = f.read(flItms['CertSize'])
@@ -153,9 +148,9 @@ def copy_cert(exe):
 def write_cert(cert, exe, output_file):
     flItms = gather_file_info_win(exe)
 
-    with open(exe, 'rb') as g:
+    with open(exe, 'rb') as source_file:
         with open(output_file, 'wb') as f:
-            f.write(g.read())
+            f.write(source_file.read())
             f.seek(0)
             f.seek(flItms['CertTableLOC'], 0)
             f.write(struct.pack("<I", len(open(exe, 'rb').read())))
@@ -228,11 +223,12 @@ def main():
     input_file = args.input
     final_size = args.m
 
+    # Split supplied file name into parts
     filename_parts = path.splitext(path.basename(input_file))
     output_filename = filename_parts[0] + '_inflated' + filename_parts[1]
 
+    # Figure out how large our source is so we know how much to inflate it
     input_file_len = get_file_size(input_file)
-
     print('Original file size: ' + str(input_file_len) + ' bytes.')
     with open(input_file, 'rb') as my_file:
         with open(output_filename, 'wb') as output_file:
@@ -240,6 +236,7 @@ def main():
 
             # Get enough padding to reach target size
             # Subtract length of original file first
+            # Multiply final size by 1048576 to get megabytes
             if args.random:
                 padding = gen_random_bytes((final_size * 1048576) - input_file_len)
             else:
