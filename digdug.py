@@ -5,8 +5,8 @@ import random
 import string
 import sys
 import struct
-import shutil
 import io
+
 
 def gen_random_bytes(desired_size):
     # Generates a random key of desired_size length
@@ -20,7 +20,7 @@ def build_padding(desired_size, dictionary_file):
 
     # Final size is approximate as we're converting a float to an int
     multiplier = int(desired_size / sizeof_dictionary_file)
-    
+
     with open(dictionary_file, 'rb') as dictionary:
         words = dictionary.read()
 
@@ -29,7 +29,7 @@ def build_padding(desired_size, dictionary_file):
 
     # Get the exact size requested
     final_words = multiplied_words[:desired_size]
-    
+
     return final_words
 
 
@@ -42,6 +42,8 @@ def get_file_size(my_file):
 '''The next four functions are adapted from SigThief
     https://github.com/secretsquirrel/SigThief
 '''
+
+
 def gather_file_info_win(binary):
     """
     Parse binary and gather metadata
@@ -134,7 +136,7 @@ def gather_file_info_win(binary):
     return flItms
 
 
-def copyCert(exe):
+def copy_cert(exe):
     flItms = gather_file_info_win(exe)
 
     if flItms['CertLOC'] == 0 or flItms['CertSize'] == 0:
@@ -148,7 +150,7 @@ def copyCert(exe):
     return cert
 
 
-def writeCert(cert, exe, output_file):
+def write_cert(cert, exe, output_file):
     flItms = gather_file_info_win(exe)
 
     with open(exe, 'rb') as g:
@@ -175,7 +177,6 @@ def check_sig(exe):
 
 
 def main():
-    
     banner = """
   ██████╗ ██╗ ██████╗     ██████╗ ██╗   ██╗ ██████╗     
   ██╔══██╗██║██╔════╝     ██╔══██╗██║   ██║██╔════╝     
@@ -195,9 +196,9 @@ def main():
     parser.add_argument('-s', '--source', help='Source file to copy signature from')
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-d', '--dictionary', type=str,
-                        help='Dictionary to use for padding')
+                       help='Dictionary to use for padding')
     group.add_argument('-r', '--random', action='store_true',
-                        help='Use random data for padding instead of dictionary words')
+                       help='Use random data for padding instead of dictionary words')
 
     if len(sys.argv) == 1:
         # No arguments received.  Print help and exit
@@ -221,10 +222,10 @@ def main():
         exit("\n\nThe input file you specified does not exist! Please specify a valid file path.\nExiting...\n")
 
     # If we're not doing random generation, check to make sure the dictionary exists
-    if not args.random:    
+    if not args.random:
         if not os.path.isfile(args.dictionary):
             exit("\n\nThe dictionary you specified does not exist! Please specify a valid file path.\nExiting...\n")
-        
+
     input_file = args.input
     final_size = args.m
 
@@ -237,7 +238,7 @@ def main():
     with open(input_file, 'rb') as my_file:
         with open(output_filename, 'wb') as output_file:
             output_file.write(my_file.read())
-            
+
             # Get enough padding to reach target size
             # Subtract length of original file first
             if args.random:
@@ -252,8 +253,8 @@ def main():
         try:
             if check_sig(args.source):
                 # The signature of the source file is valid
-                cert = copyCert(args.source)
-                writeCert(cert, args.source, output_filename)
+                cert = copy_cert(args.source)
+                write_cert(cert, args.source, output_filename)
             else:
                 # The source binary is not signed or has an invalid signature
                 exit('\n\n' + args.source + ' is not signed! Skipping signature copy.')
@@ -263,4 +264,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
