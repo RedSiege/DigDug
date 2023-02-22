@@ -188,7 +188,7 @@ def main():
     # Parse our arguments
     parser = argparse.ArgumentParser(description='Inflate an executable with words')
     parser.add_argument('-i', '--input', type=str, required=True,
-                        help="Input file to increase size.")
+                        help="Input file to increase size")
     parser.add_argument('-m', default=100, type=int, metavar='100',
                         help='Specify the desired size in megabytes to increase by')
     parser.add_argument('-q', '--quiet', action='store_true',
@@ -213,7 +213,6 @@ def main():
         show_banner = False
     else:
         show_banner = True
-
     if show_banner:
         print(banner)
 
