@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-import os
-import random
+from os import path, stat
+from random import choice
 import string
 import sys
 import struct
@@ -10,13 +10,13 @@ import io
 
 def gen_random_bytes(desired_size):
     # Generates a random key of desired_size length
-    return bytes(''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase)
+    return bytes(''.join(choice(string.ascii_uppercase + string.ascii_lowercase)
                          for _ in range(desired_size)), 'ascii')
 
 
 def build_padding(desired_size, dictionary_file):
     # read in words dictionary
-    sizeof_dictionary_file = os.stat(dictionary_file).st_size
+    sizeof_dictionary_file = stat(dictionary_file).st_size
 
     # Final size is approximate as we're converting a float to an int
     multiplier = int(desired_size / sizeof_dictionary_file)
@@ -34,7 +34,7 @@ def build_padding(desired_size, dictionary_file):
 
 
 def get_file_size(my_file):
-    my_file_stats = os.stat(my_file)
+    my_file_stats = stat(my_file)
     my_file_len = my_file_stats.st_size
     return my_file_len
 
@@ -217,18 +217,18 @@ def main():
         print(banner)
 
     # Make sure the specified input exists
-    if not os.path.isfile(args.input):
+    if not path.isfile(args.input):
         exit("\n\nThe input file you specified does not exist! Please specify a valid file path.\nExiting...\n")
 
     # If we're not doing random generation, check to make sure the dictionary exists
     if not args.random:
-        if not os.path.isfile(args.dictionary):
+        if not path.isfile(args.dictionary):
             exit("\n\nThe dictionary you specified does not exist! Please specify a valid file path.\nExiting...\n")
 
     input_file = args.input
     final_size = args.m
 
-    filename_parts = os.path.splitext(os.path.basename(input_file))
+    filename_parts = path.splitext(path.basename(input_file))
     output_filename = filename_parts[0] + '_inflated' + filename_parts[1]
 
     input_file_len = get_file_size(input_file)
