@@ -9,6 +9,9 @@ __pycache__/
 # beacon shellcode
 *.bin
 
+# Windows PE
+*.exe
+
 # Distribution / packaging
 .Python
 build/
