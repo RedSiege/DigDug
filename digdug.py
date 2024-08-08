@@ -148,15 +148,13 @@ def copy_cert(exe):
 def write_cert(cert, exe, output_file):
     flItms = gather_file_info_win(exe)
 
-    with open(exe, 'rb') as source_file:
-        with open(output_file, 'wb') as f:
-            f.write(source_file.read())
-            f.seek(0)
-            f.seek(flItms['CertTableLOC'], 0)
-            f.write(struct.pack("<I", len(open(exe, 'rb').read())))
-            f.write(struct.pack("<I", len(cert)))
-            f.seek(0, io.SEEK_END)
-            f.write(cert)
+    with open(output_file, 'ab') as f:
+        f.seek(0)
+        f.seek(flItms['CertTableLOC'], 0)
+        f.write(struct.pack("<I", len(open(exe, 'rb').read())))
+        f.write(struct.pack("<I", len(cert)))
+        f.seek(0, io.SEEK_END)
+        f.write(cert)
 
     print('Successfully added signature to ' + output_file + '!')
 
